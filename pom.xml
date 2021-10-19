@@ -31,6 +31,19 @@
 				<version>${mule.maven.plugin.version}</version>
 				<extensions>true</extensions>
 				<configuration>
+				    <cloudHubDeployment>
+						<uri>https://anypoint.mulesoft.com</uri>
+						<muleVersion>4.3.0</muleVersion>
+						<username>weatheralert</username>
+						<password>Apisero@123</password>
+						<businessGroup>Mulesoft</businessGroup>
+						<workers>1</workers>
+						<workerType>MICRO</workerType>
+						<region>us-east-2</region>
+						<environment>Sandbox</environment>
+						<applicationName>weatheralert</applicationName>
+						<objectStoreV2>true</objectStoreV2>
+					</cloudHubDeployment>
 					<classifier>mule-application</classifier>
 				</configuration>
 			</plugin>
@@ -49,19 +62,7 @@
 					</execution>
 				</executions>
 				<configuration>
-				   <cloudHubDeployment>
-						<uri>https://anypoint.mulesoft.com</uri>
-						<muleVersion>4.3.0</muleVersion>
-						<username>weatheralert</username>
-						<password>Apisero@123</password>
-						<businessGroup>Mulesoft</businessGroup>
-						<workers>1</workers>
-						<workerType>MICRO</workerType>
-						<region>us-east-2</region>
-						<environment>Sandbox</environment>
-						<applicationName>weatheralert</applicationName>
-						<objectStoreV2>true</objectStoreV2>
-					</cloudHubDeployment>
+				   
 				   
 					<coverage>
 						<runCoverage>true</runCoverage>
