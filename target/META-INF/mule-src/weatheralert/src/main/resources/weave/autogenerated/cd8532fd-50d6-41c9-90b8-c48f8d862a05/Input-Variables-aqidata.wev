@@ -1,0 +1,4 @@
+%dw 2.0
+
+type auto_cd8532fd_50d6_41c9_90b8_c48f8d862a05_Input_Variables_aqidata = Any
+

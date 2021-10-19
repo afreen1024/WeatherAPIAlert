@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="implementation-suite.xml" />
+	<munit:test name="getWeatherData-test" doc:id="73095c97-880b-4ac3-bd02-cc01b3d1175c" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock set_vars_latitude_longitude" doc:id="f8c59cca-6a1d-4d3c-aefd-d1c0047d9023" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="15e12c1d-9fed-4703-a922-d38fe835a721" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[readUrl('classpath://getWeatherDatatest\mock_payload.dwl')]" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://getWeatherDatatest\mock_attributes.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://getWeatherDatatest\mock_variable_.dwl')]" />
+						<munit-tools:variable key="email" value="#[output application/java --- readUrl('classpath://getWeatherDatatest\mock_variable_1.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="lon" value="#[output application/java --- readUrl('classpath://getWeatherDatatest\mock_variable_2.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="lat" value="#[output application/java --- readUrl('classpath://getWeatherDatatest\mock_variable_3.dwl')]" mediaType="application/java" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock Get Weather Data" doc:id="b86e6b25-ec6b-4a65-8a09-59fd8eafd1d6" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="caf54f9a-53b2-4330-a772-47368339eafd" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://getWeatherDatatest\mock_payload1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://getWeatherDatatest\mock_attributes1.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://getWeatherDatatest\mock_variable_4.dwl')]" />
+						<munit-tools:variable key="aqidata" value="#[output application/json --- readUrl('classpath://getWeatherDatatest\mock_variable_5.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="email" value="#[output application/java --- readUrl('classpath://getWeatherDatatest\mock_variable_6.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="lon" value="#[output application/java --- readUrl('classpath://getWeatherDatatest\mock_variable_7.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="lat" value="#[output application/java --- readUrl('classpath://getWeatherDatatest\mock_variable_8.dwl')]" mediaType="application/java" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock Get Air Quality" doc:id="2db470dd-9379-4ef2-9b51-c0e17164e347" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="bec894de-0c45-468d-b485-4fc33be8c3da" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[readUrl('classpath://getWeatherDatatest\mock_payload2.dwl')]" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://getWeatherDatatest\mock_attributes2.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://getWeatherDatatest\mock_variable_9.dwl')]" />
+						<munit-tools:variable key="aqidata" value="#[output application/json --- readUrl('classpath://getWeatherDatatest\mock_variable_10.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="email" value="#[output application/java --- readUrl('classpath://getWeatherDatatest\mock_variable_11.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="lon" value="#[output application/java --- readUrl('classpath://getWeatherDatatest\mock_variable_12.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="lat" value="#[output application/java --- readUrl('classpath://getWeatherDatatest\mock_variable_13.dwl')]" mediaType="application/java" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="117be594-c41e-4dc6-b943-09c15a3e4f75" >
+				<munit:payload value="#[readUrl('classpath://getWeatherDatatest\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://getWeatherDatatest\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://getWeatherDatatest\set-event_variable_.dwl')]" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to getWeatherData" doc:id="24aa7b92-d440-422f-a4fd-eb14792def97" name="getWeatherData"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="f281097c-f7cd-4a6b-9347-d14a7e537bf9" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import getWeatherDatatest::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:verify-call doc:name="Verify Customize response payload" doc:id="289bb02e-afed-4a24-8730-83384065bf12" processor="ee:transform" times="1">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="ef734a6e-6845-4f51-9568-3765beacc76b" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+			<munit-tools:verify-call doc:name="Verify Combine weather and aqi report" doc:id="3accc19e-81ee-4663-872c-879edfdf73bb" processor="ee:transform" times="1">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="3fdc5a87-f720-43e2-98c1-f140bec699ab" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+			<munit-tools:verify-call doc:name="Verify Logger" doc:id="04c0063f-8cea-4366-8ae1-f325c31c24c1" processor="logger" times="1">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="130322c5-8b82-4ca5-bf2b-c32644b5bfef" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+			<munit-tools:verify-call doc:name="Verify Send Email incase of Bad Weather" doc:id="aa2a6f12-e9c1-413f-aa69-a6e26f7942f7" processor="flow-ref" times="1">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="5e92ea13-0ba1-436e-b0ef-08e2ecfd9f8c" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="set_vars_latitude_longitude-test" doc:id="36d2a37c-aabf-440f-bd5c-15e34e48add9" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock Set Latitude" doc:id="0fb09a49-3329-4d23-aec3-d5644bbb561e" processor="set-variable">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="e302238a-6f63-47c7-9b8b-ce59e1a891fe" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://setvarslatitudelongitudetest\mock_variable_.dwl')]" />
+						<munit-tools:variable key="lat" value="#[output application/java --- readUrl('classpath://setvarslatitudelongitudetest\mock_variable_1.dwl')]" mediaType="application/java" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock Set Longitude" doc:id="6002df04-d6f5-42ce-9e66-20a798fa94b4" processor="set-variable">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="e62a3123-1f59-45e5-8552-cdd6a3e8f08e" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://setvarslatitudelongitudetest\mock_variable_2.dwl')]" />
+						<munit-tools:variable key="lon" value="#[output application/java --- readUrl('classpath://setvarslatitudelongitudetest\mock_variable_3.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="lat" value="#[output application/java --- readUrl('classpath://setvarslatitudelongitudetest\mock_variable_4.dwl')]" mediaType="application/java" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock Set EMAIL" doc:id="43d580ae-a7cb-417d-80d3-0b2c9176bc88" processor="set-variable">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="57eec4b8-17f5-49b2-8ed9-152b262f3b3f" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://setvarslatitudelongitudetest\mock_variable_5.dwl')]" />
+						<munit-tools:variable key="email" value="#[output application/java --- readUrl('classpath://setvarslatitudelongitudetest\mock_variable_6.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="lon" value="#[output application/java --- readUrl('classpath://setvarslatitudelongitudetest\mock_variable_7.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="lat" value="#[output application/java --- readUrl('classpath://setvarslatitudelongitudetest\mock_variable_8.dwl')]" mediaType="application/java" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="be74b938-cd1d-44d1-92cf-c2287c45a09b" >
+				<munit:payload value="#[readUrl('classpath://setvarslatitudelongitudetest\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://setvarslatitudelongitudetest\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://setvarslatitudelongitudetest\set-event_variable_.dwl')]" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to set_vars_latitude_longitude" doc:id="ae2573d5-fbf8-448b-bd54-72866b23734d" name="set_vars_latitude_longitude"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="00af3d69-46a1-4c69-b7ef-14548413d600" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import setvarslatitudelongitudetest::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:verify-call doc:name="Verify Is not null :Verify for email" doc:id="21acd217-0939-416e-ac4f-bb94b221170f" processor="validation:is-not-null" times="1">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="f7734753-f773-42b1-9352-d34ee42df894" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+			<munit-tools:verify-call doc:name="Verify Is not null : verify Latitude" doc:id="2f962c61-8187-4728-af26-71a1f02236c1" processor="validation:is-not-null" times="1">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="bd416d49-f62d-4b56-8a8f-ee8ad5e3c332" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+			<munit-tools:verify-call doc:name="Verify Is not null: verify Longitude" doc:id="10f882d3-e049-48e4-9815-4309e5de6209" processor="validation:is-not-null" times="1">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="6713b6bc-ff70-46ae-bdb7-b8b0f7926380" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="SendEMAIL-test" doc:id="8d03f155-8c0c-4884-8f84-ec2dd257d77b" >
+		<munit:behavior >
+			<munit:set-event doc:name="Set Input" doc:id="acf55442-41f0-487b-b874-db27f1422116" >
+				<munit:payload value="#[output application/json --- readUrl('classpath://SendEMAILtest\set-event_payload.dwl')]" encoding="UTF-8" mediaType="application/json" />
+				<munit:attributes value="#[readUrl('classpath://SendEMAILtest\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://SendEMAILtest\set-event_variable_.dwl')]" />
+					<munit:variable key="aqidata" value="#[output application/json --- readUrl('classpath://SendEMAILtest\set-event_variable_1.dwl')]" encoding="UTF-8" mediaType="application/json" />
+					<munit:variable key="email" value="#[output application/java --- readUrl('classpath://SendEMAILtest\set-event_variable_2.dwl')]" encoding="UTF-8" mediaType="application/java" />
+					<munit:variable key="lon" value="#[output application/java --- readUrl('classpath://SendEMAILtest\set-event_variable_3.dwl')]" encoding="UTF-8" mediaType="application/java" />
+					<munit:variable key="lat" value="#[output application/java --- readUrl('classpath://SendEMAILtest\set-event_variable_4.dwl')]" encoding="UTF-8" mediaType="application/java" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to SendEMAIL" doc:id="4d08f6e4-b6e4-4845-a5ee-9346b7dc2722" name="SendEMAIL"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="8ec817e0-fd92-427d-a8ea-e66de0d2e3f5" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import SendEMAILtest::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:verify-call doc:name="Verify Send Email : Bad Weather" doc:id="7a1e2ac4-57e1-45a9-bc92-33c80f5fbb71" processor="email:send" times="1">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="da16dabb-955b-49e0-a077-3a53dc5d2f90" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="webFlow-test" doc:id="03ce0ed8-730c-4b58-bcb1-47067b5d603c" >
+		<munit:behavior >
+			<munit:set-event doc:name="Set Input" doc:id="fc901ce1-6f9c-4f25-8b97-7214dc1aa120" >
+				<munit:payload value="#[readUrl('classpath://webFlowtest\set-event_payload1.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://webFlowtest\set-event_attributes1.dwl')]" />
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to webFlow" doc:id="46a5d788-4e19-40a9-b745-822b2c65ae17" name="webFlow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="978413eb-0000-4b82-a74c-c89c74a12adf" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import webFlowtest::assert_expression_payload1
+---
+assert_expression_payload1::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:verify-call doc:name="Verify Load static resource" doc:id="da364cf5-23d1-4758-8103-0d620082cd66" processor="http:load-static-resource" times="1">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="ca95bac0-a67d-4602-9e28-db8c04203bfe" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+			<munit-tools:verify-call doc:name="Verify to get the working Dir" doc:id="04e8a177-3417-4006-9066-690b8299f42b" processor="flow-ref" times="1">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="b29400e5-cd22-4f19-9d80-b9b6f49fbf4f" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="workingDir-test" doc:id="df71efd1-326e-4a93-9a4f-ca6aed575cc5" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock Is not null :MuleHome" doc:id="857ab675-2112-43f2-90f3-4fca003f292e" processor="validation:is-not-null">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="ad9b73a2-05bc-4e5c-bcec-01369eaaa4d2" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[readUrl('classpath://workingDirtest\mock_payload.dwl')]" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://workingDirtest\mock_attributes.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="muleHome" value="#[output application/java --- readUrl('classpath://workingDirtest\mock_variable_.dwl')]" mediaType="application/java" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock get Application Name" doc:id="070fc978-8990-46f4-9935-37000f1e138c" processor="set-variable">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="330a12a7-0740-4afb-9ca8-3de8eeae8ae1" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:variables >
+						<munit-tools:variable key="appName" value="#[output application/java --- readUrl('classpath://workingDirtest\mock_variable_1.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="muleHome" value="#[output application/java --- readUrl('classpath://workingDirtest\mock_variable_2.dwl')]" mediaType="application/java" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock Mule Home" doc:id="b59a28b6-5585-4001-9cfc-fd3483a0013c" processor="set-variable">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="d2cad5b0-3c6e-4051-a7bb-2fe7379ad67f" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:variables >
+						<munit-tools:variable key="muleHome" value="#[output application/java --- readUrl('classpath://workingDirtest\mock_variable_3.dwl')]" mediaType="application/java" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock Is not null :verify WorkingDir" doc:id="5b490703-4021-480c-8d9e-8085798ef61c" processor="validation:is-not-null">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="ecc06f59-0572-45de-adaf-f1dba3ab3848" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[readUrl('classpath://workingDirtest\mock_payload1.dwl')]" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://workingDirtest\mock_attributes1.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="workingDir" value="#[output application/java --- readUrl('classpath://workingDirtest\mock_variable_4.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="appName" value="#[output application/java --- readUrl('classpath://workingDirtest\mock_variable_5.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="muleHome" value="#[output application/java --- readUrl('classpath://workingDirtest\mock_variable_6.dwl')]" mediaType="application/java" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock Is not null: verify AppName" doc:id="fb58e2cf-1fe9-4953-8cd9-84d96e1bc1c2" processor="validation:is-not-null">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="b970cca4-0896-48e0-a41c-3227fbbf2df7" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[readUrl('classpath://workingDirtest\mock_payload2.dwl')]" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://workingDirtest\mock_attributes2.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="appName" value="#[output application/java --- readUrl('classpath://workingDirtest\mock_variable_7.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="muleHome" value="#[output application/java --- readUrl('classpath://workingDirtest\mock_variable_8.dwl')]" mediaType="application/java" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock Create the folder location" doc:id="cb2b5ce1-ff5b-466d-89ab-fbe687e75a40" processor="set-variable">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="a217b728-89c6-4d4a-9539-f9c1ccaadda2" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:variables >
+						<munit-tools:variable key="workingDir" value="#[output application/java --- readUrl('classpath://workingDirtest\mock_variable_9.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="appName" value="#[output application/java --- readUrl('classpath://workingDirtest\mock_variable_10.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="muleHome" value="#[output application/java --- readUrl('classpath://workingDirtest\mock_variable_11.dwl')]" mediaType="application/java" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="a6215186-8f9a-4c80-8230-2653a24f53c5" >
+				<munit:payload value="#[readUrl('classpath://workingDirtest\set-event_payload1.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://workingDirtest\set-event_attributes1.dwl')]" />
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to workingDir" doc:id="087ae438-190a-4d40-9e61-1a79c27c3b69" name="workingDir"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="4c436e9f-0f15-422c-ae17-a82adda328f1" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import workingDirtest::assert_expression_payload1
+---
+assert_expression_payload1::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>

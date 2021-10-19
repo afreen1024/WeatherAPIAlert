@@ -1,0 +1,143 @@
+<!doctype html>
+<html>
+	<head>
+		<title>weatherApp</title>
+		<style>
+			.heading-1{
+			border-bottom: solid 1px lightgrey;
+			}
+			body{
+			text-align:center;
+			}
+			.f-1{
+			padding: 20px;
+			}
+			.text-1{
+			padding:5px;
+			}
+			.button-1{
+			padding: 7px;
+			background-color: cornflowerblue;
+			color: white;
+			border: none;
+			border-radius: 5px;
+			}
+			.button-2{
+			padding: 7px;
+			background-color: yellow;
+			border: none;
+			border-radius: 5px;
+			}
+			.form-content{
+			border-bottom: solid 1px lightgrey;
+			}
+			.success-m{
+			padding: 10px;
+			margin-top: 15px;
+			background: aliceblue;
+			border: solid 1px lightgreen;
+			color: green;}
+			.conent-t1{
+			padding:10px;
+			background: azure;
+			text-align:left;
+			}
+			.header-t1{
+			padding:10px;
+			border:solid 1px;
+			}
+			.column-1{
+			display:inline-block;
+			width:40%;
+			vertical-align: top;
+			}
+			.column-2{
+			display:inline-block;
+			width:40%;
+			}
+			.header-t1{
+			background-color: teal;
+			color: white;}
+		</style>
+	</head>
+	<body>
+		<div class="heading-1">
+			<h1>Weather Alert</h1>
+		</div>
+		<div class="success-m">
+		<label>Weather Data Fetched</label>
+		</div>
+		<div class="form-content">
+			<form action="" method="post">
+				<div class="f-1">
+					<input type="text" id="long" name="long" class="input-1 text-1">
+					<input type="text" id="lat" name="lat" class="input-2 text-1">
+					<input type="text" id="email" name="email" class="input-2 text-1">
+					<input type="button" value="Use This Location" class="input-3 button-1" onclick="myFunction()">
+				</div>
+				<div class="f-1">
+					<input type="submit" value="Use Current Location" class="input-4 button-1">
+					<input type="submit" value="Ask Help!" class="input-5 button-2">
+				</div>
+			</form> 
+		</div>
+		<div>
+			<div>
+			<h2>Mumbai, India</h2>
+			</div>
+			<div>
+				<div class="column-1">
+					<div class="header-t1">
+						<label class="">Weather Data</label>
+					</div>
+					<div class="conent-t1">
+						<label class="key-1">Heat Index:</label>
+						<label class="value-1">Normal</label>
+					</div>
+					<div class="conent-t1">
+						<label class="key-1">Wind Index:</label>
+						<label class="value-1">Light Wind</label>
+					</div>
+					<div class="conent-t1">
+						<label class="key-1">Temp:</label>
+						<label class="value-1">8.91<sup>o</sup>C</label> | 
+						<label class="key-1">Condition:</label>
+						<label class="value-1">Clouds</label>
+					</div>
+					<div class="conent-t1">
+						<label class="key-1">Visibility:</label>
+						<label class="value-1">10000 m</label> | 
+						<label class="key-1">Humidity:</label>
+						<label class="value-1">93%</label>
+					</div>
+				</div>
+				<div class="column-2">
+					<div class="header-t1">
+						<label class="">AQI Data</label>
+					</div>
+					<div class="conent-t1">
+						<label class="key-1">Air Quality:</label>
+						<label class="value-1">NA</label>
+					</div>
+					<div class="conent-t1">
+						<label class="key-1">Recomendation(Non-Sensitive Group):</label>
+						<label class="value-1">NA</label>
+					</div>
+					<div class="conent-t1">
+						<label class="key-1">Recomendation(Sensitive Group):</label>
+						<label class="value-1">NA</label>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			function myFunction() {
+			var longi = document.getElementById("long").value;
+			var lat = document.getElementById("lat").value;
+			var email = document.getElementById("email").value;
+			var n_url = "http://localhost:8081/api/report?lon=" + longi + "&lat=" + lat + "&email=" +email;
+			window.open(n_url,'_top');
+			}
+		</script>
+	</body>
+</html>

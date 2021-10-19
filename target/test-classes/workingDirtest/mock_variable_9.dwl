@@ -1,0 +1,1 @@
+"C:\\AnypointStudio-7.10.0-win64\\AnypointStudio\\plugins\\org.mule.tooling.server.4.3.0.ee_7.3.5.202106291753\\mule\\apps\\weatheralert"

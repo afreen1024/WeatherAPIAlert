@@ -1,0 +1,12 @@
+http:
+  port: "8081"
+  
+request:
+  host: "api.openweathermap.org"
+  
+  
+email:
+  host: "smtp.mailtrap.io"
+  port: "465"
+  user: "1478a3e8257119"
+  password: "daa750215bfcfa"
