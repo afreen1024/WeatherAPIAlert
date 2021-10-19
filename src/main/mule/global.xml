@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:email="http://www.mulesoft.org/schema/mule/email" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd">
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="2ca91f7c-c3ba-4187-a19d-2158616b2eec" >
+		<http:request-connection host="${request.host}" />
+	</http:request-config>
+	<configuration-properties doc:name="Configuration properties" doc:id="006b0791-0fe0-45b4-ad90-70a51302d8cd" file="config.yaml" />
+	<email:smtp-config name="Email_SMTP" doc:name="Email SMTP" doc:id="5f164a68-234b-4595-b859-db18ca4f3cbc" >
+		<email:smtp-connection host="${email.host}" user="${email.user}" password="${email.password}" port="${email.port}"/>
+	</email:smtp-config>
+	<error-handler name="globalError_Handler" doc:id="0b38c272-6db2-46ae-8f0c-e58199fd637f" >
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate : HTTP Request" doc:id="8422813e-48e4-4543-a6fe-a4e20f5da917" type="HTTP:BAD_GATEWAY, HTTP:BAD_REQUEST, HTTP:CLIENT_SECURITY, HTTP:CONNECTIVITY, HTTP:FORBIDDEN, HTTP:INTERNAL_SERVER_ERROR, HTTP:METHOD_NOT_ALLOWED, HTTP:NOT_ACCEPTABLE, HTTP:NOT_FOUND, HTTP:PARSING, HTTP:RETRY_EXHAUSTED, HTTP:SECURITY, HTTP:SERVICE_UNAVAILABLE, HTTP:TIMEOUT, HTTP:TOO_MANY_REQUESTS, HTTP:UNAUTHORIZED, HTTP:UNSUPPORTED_MEDIA_TYPE">
+			<set-payload value="Something went wrong :(" doc:name="RestService" doc:id="3736a678-048c-4d8d-8d26-35bc381753f7" />
+		</on-error-propagate>
+		<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue: Email Notification" doc:id="8ffa9dd2-102d-468a-96d0-b608d970069b" type="EMAIL:CONNECTIVITY, EMAIL:RETRY_EXHAUSTED, EMAIL:SEND">
+			<set-payload value="Error in sending the email." doc:name="Email Notification" doc:id="dbd29d3a-bbb1-4e9b-bed0-772b5d3a78c6" />
+		</on-error-continue>
+		<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue :Dataweave" doc:id="fdb94e72-49bd-47f2-a6ca-1773452c95dd" type="EXPRESSION, STREAM_MAXIMUM_SIZE_EXCEEDED">
+			<set-payload value="Please check your inputs." doc:name="Dataweave" doc:id="292eb0e8-85f0-465d-bec6-55e16c26e91a" />
+		</on-error-continue>
+	</error-handler>
+</mule>

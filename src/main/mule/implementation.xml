@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:email="http://www.mulesoft.org/schema/mule/email"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
+	<http:request-config name="HTTP_Request_configuration1" doc:name="HTTP Request configuration" doc:id="43bf1e9d-7b4e-4502-bf5c-82a5bc0a2e8a" >
+		<http:request-connection host="localhost" port="8081" />
+	</http:request-config>
+	<flow name="getWeatherData" doc:id="76cead4f-5571-4ea3-97d7-82f8443f01d2" >
+		<flow-ref doc:name="set_vars_latitude_longitude" doc:id="15e12c1d-9fed-4703-a922-d38fe835a721" name="set_vars_latitude_longitude"/>
+		<http:request method="GET" doc:name="Get Air Quality" doc:id="bec894de-0c45-468d-b485-4fc33be8c3da" config-ref="HTTP_Request_configuration" path="/data/2.5/air_pollution" target="aqidata">
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"appid" : "1e41966931e7c9c5104bce11c098a323",
+	"lat" : vars.lat,
+	"lon" : vars.lon
+}]]]></http:query-params>
+		</http:request>
+		<http:request method="GET" doc:name="Get Weather Data" doc:id="caf54f9a-53b2-4330-a772-47368339eafd" config-ref="HTTP_Request_configuration" path="/data/2.5/weather">
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"appid" : "1e41966931e7c9c5104bce11c098a323",
+	"lat" : vars.lat,
+	"lon" : vars.lon
+}]]]></http:query-params>
+		</http:request>
+		<ee:transform doc:name="Combine weather and aqi report" doc:id="3fdc5a87-f720-43e2-98c1-f140bec699ab" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+	payload ++ { "AQI Data": vars.aqidata.list[0]
+	}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="Customize response payload" doc:id="ef734a6e-6845-4f51-9568-3765beacc76b" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload.weather map ( weather , indexOfWeather ) -> {
+	"Wind Index": payload.wind.speed as Number,
+	Condition: weather.main,
+	Country: payload.name default "US",
+	Temperature: payload.main.temp ,
+	Humidity: payload.main.humidity ++ " %",
+	AQI: payload."AQI Data".main.aqi,
+	Visibility: payload.visibility ++ " m",
+	"Heat Index": payload.main.temp_max as String,
+	"Components" : {
+		"co" : payload."AQI Data".components.co,
+		"no" : payload."AQI Data".components.no,
+		"o3" : payload."AQI Data".components.o3,
+		"pm10" : payload."AQI Data".components.pm10
+	}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<flow-ref doc:name="Send Email incase of Bad Weather" doc:id="5e92ea13-0ba1-436e-b0ef-08e2ecfd9f8c" name="SendEMAIL"/>
+		<parse-template doc:name="Parse Template" doc:id="f9e229dd-2e87-4d8e-97c5-3a1ef8195164" location="webpage\WeatherAlert.html"/>
+		<logger level="INFO" doc:name="Logger" doc:id="130322c5-8b82-4ca5-bf2b-c32644b5bfef" message="#[payload]"/>
+	</flow>
+	<sub-flow name="SendEMAIL" doc:id="cd8532fd-50d6-41c9-90b8-c48f8d862a05" >
+		<choice doc:name="Choice" doc:id="56e332cd-f2ed-4d08-aad9-c9fa8da049f0" >
+			<when expression='#[payload[0]."Wind Index" &gt; 2]'>
+				<email:send doc:name="Send Email : Bad Weather" doc:id="da16dabb-955b-49e0-a077-3a53dc5d2f90" config-ref="Email_SMTP" fromAddress="saurabh.r.dixit@apisero.com" subject="Bad-Weather">
+					<email:to-addresses >
+						<email:to-address value="#[vars.email]" />
+					</email:to-addresses>
+					<email:body contentTransferEncoding="Quoted-Printable">
+						<email:content ><![CDATA[#["There is Bad weather in your area please evacuate"]]]></email:content>
+					</email:body>
+				</email:send>
+			</when>
+			<otherwise>
+				<set-payload value="#[payload]" doc:name="Normal Weather" doc:id="1153fae6-3f66-4d43-bc12-63348436868b" />
+				<validation:is-not-null doc:name="Is not null : Normal Weather" doc:id="3ba85716-77e8-4040-b170-2e0332368ee6" value="#[payload]" message="The payload is empty"/>
+			</otherwise>
+		</choice>
+	</sub-flow>
+	<sub-flow name="set_vars_latitude_longitude" doc:id="8d0dd541-7643-482b-94a1-877ce544cced" >
+		<set-variable value="#[attributes.queryParams.lat default 50]" doc:name="Set Latitude" doc:id="e302238a-6f63-47c7-9b8b-ce59e1a891fe" variableName="lat"/>
+		<validation:is-not-null doc:name="Is not null : verify Latitude" doc:id="bd416d49-f62d-4b56-8a8f-ee8ad5e3c332" value="#[vars.lat]" message="Latitude variable is empty"/>
+		<set-variable value="#[attributes.queryParams.lon default 50]" doc:name="Set Longitude" doc:id="e62a3123-1f59-45e5-8552-cdd6a3e8f08e" variableName="lon"/>
+		<validation:is-not-null doc:name="Is not null: verify Longitude" doc:id="6713b6bc-ff70-46ae-bdb7-b8b0f7926380" value="#[vars.lon]" message="Longitude varaible is empty"/>
+		<set-variable value='#[attributes.queryParams.email default "afreen.fatma@apisero.com"]' doc:name="Set EMAIL" doc:id="57eec4b8-17f5-49b2-8ed9-152b262f3b3f" variableName="email"/>
+		<validation:is-not-null doc:name="Is not null :Verify for email" doc:id="f7734753-f773-42b1-9352-d34ee42df894" value="#[vars.email]" message="User email is not present"/>
+	</sub-flow>
+	<flow name="webFlow" doc:id="ef61d338-548b-4fc7-b1d8-4dd0a0960b20" >
+		<http:listener doc:name="Listener" doc:id="8a38932a-ed85-4888-bf25-deb75631d6de" config-ref="WeatherAlertApi-httpListenerConfig" path="/api/web"/>
+		<flow-ref doc:name="to get the working Dir" doc:id="b29400e5-cd22-4f19-9d80-b9b6f49fbf4f" name="workingDir"/>
+		<http:load-static-resource doc:name="Load static resource" doc:id="ca95bac0-a67d-4602-9e28-db8c04203bfe" resourceBasePath='#[vars.workingDir]' defaultFile="/webpage/WeatherAlert.html"/>
+		<error-handler >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate :Static HTTP Page" doc:id="9514982c-3fa6-443a-b43b-8f86ef56244c" type="HTTP:NOT_FOUND">
+				<set-payload value="Error with the webpage" doc:name="WebPage Not Loaded" doc:id="2403eca3-fdc7-4dba-8236-efc935e4d5df" />
+			</on-error-propagate>
+		</error-handler>
+	</flow>
+	<sub-flow name="workingDir" doc:id="4a59730d-5db5-430c-b4cd-5979c168383e" >
+		<set-variable value="#[mule.home]" doc:name="Mule Home" doc:id="d2cad5b0-3c6e-4051-a7bb-2fe7379ad67f" variableName="muleHome" />
+		<validation:is-not-null doc:name="Is not null :MuleHome" doc:id="ad9b73a2-05bc-4e5c-bcec-01369eaaa4d2" value="#[vars.muleHome]" message="Mule home is empty"/>
+		<set-variable value="#[app.name]" doc:name="get Application Name" doc:id="330a12a7-0740-4afb-9ca8-3de8eeae8ae1" variableName="appName" />
+		<validation:is-not-null doc:name="Is not null: verify AppName" doc:id="b970cca4-0896-48e0-a41c-3227fbbf2df7" value="#[vars.appName]" message="Application Name is not present"/>
+		<set-variable value='#[(vars.muleHome default "")++"//apps//"++(vars.appName default "")]' doc:name="Create the folder location" doc:id="a217b728-89c6-4d4a-9539-f9c1ccaadda2" variableName="workingDir" />
+		<validation:is-not-null doc:name="Is not null :verify WorkingDir" doc:id="ecc06f59-0572-45de-adaf-f1dba3ab3848" value="#[vars.workingDir]" message="Check your working directory"/>
+	</sub-flow>
+</mule>

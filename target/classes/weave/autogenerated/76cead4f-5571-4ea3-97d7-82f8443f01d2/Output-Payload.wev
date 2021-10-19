@@ -1,0 +1,4 @@
+%dw 2.0
+
+type auto_76cead4f_5571_4ea3_97d7_82f8443f01d2_Output_Payload = Array<{  "Wind Index": String,   Condition: String,   Components: { _?: Any },   country: String,   Temperature: Number,   Humidity: Number,   AQI: Number,   Visibility: Number,   "Heat Index": String,   _?: Any}>
+

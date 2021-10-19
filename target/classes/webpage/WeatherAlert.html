@@ -1,0 +1,238 @@
+<!doctype html>
+<html>
+	<head>
+		<title>weatherApp</title>
+		<style>
+			.heading-1{
+			border-bottom: solid 1px lightgrey;
+			}
+			body{
+			text-align:center;
+			}
+			.button-2{
+			cursor:pointer;
+			}
+			.f-1{
+			padding: 20px;
+			}
+			.text-1{
+			padding:5px;
+			}
+			.button-1{
+			cursor:pointer;
+			padding: 7px;
+			background-color: cornflowerblue;
+			color: white;
+			border: none;
+			border-radius: 5px;
+			}
+			.button-2{
+			padding: 7px;
+			background-color: yellow;
+			border: none;
+			border-radius: 5px;
+			}
+			.form-content{
+			border-bottom: solid 1px lightgrey;
+			}
+			.success-m{
+			padding: 10px;
+			margin-top: 15px;
+			background: aliceblue;
+			border: solid 1px lightgreen;
+			color: green;}
+			.conent-t1{
+			padding:10px;
+			background: azure;
+			text-align:left;
+			}
+			.header-t1{
+			padding:10px;
+			border:solid 1px;
+			}
+			.column-1{
+			display:inline-block;
+			width:40%;
+			vertical-align: top;
+			}
+			.column-2{
+			display:inline-block;
+			width:40%;
+			}
+			.header-t1{
+			background-color: teal;
+			color: white;}
+			.key-1{
+			font-weight: 600;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="heading-1">
+			<h1>Weather Alert</h1>
+		</div>
+		<div class="success-m" id="success-message">
+		<label> Weather Data Fetched </label>
+		</div>
+		<div class="form-content">
+			<form action="" method="post">
+				<div class="f-1">
+					<input type="text" id="long" name="long" class="input-1 text-1" placeholder="Longitude...">
+					<input type="text" id="lat" name="lat" class="input-2 text-1" placeholder="Latitude...">
+					<input type="text" id="email" name="email" class="input-2 text-1" placeholder="Email...">
+					<input type="button" value="Use This Location" class="input-3 button-1" onclick="myFunction()">
+				</div>
+				<div class="f-1">
+					<input type="button" value="Use Current Location" class="input-4 button-1" onclick="myFunctiondefault()">
+					<input type="button" value="Ask Help!" class="input-5 button-2" onclick="alertMessage()">
+				</div>
+				<input type="hidden" name="hid" id="hid" value="#[%dw 2.0
+			output application/json
+			---
+			(payload.Country)]">
+			</form>
+		</div>
+		<div id="responseContainer">
+			<div>
+			<h2>
+			#[%dw 2.0
+			output application/java
+			---
+			(payload.Country)]</h2>
+			</div>
+			<div>
+				<div class="column-1">
+					<div class="header-t1">
+						<label class="">Weather Data</label>
+					</div>
+					<div class="conent-t1">
+						<label class="key-1">Heat Index:</label>
+						<label class="value-1">
+						#[%dw 2.0
+						output application/json
+						---
+						(payload."Heat Index" default "")]
+						</label>
+					</div>
+					<div class="conent-t1">
+						<label class="key-1">Wind Index:</label>
+						<label class="value-1">
+						#[%dw 2.0
+						output application/json
+						---
+						(payload."Wind Index" default "")]</label>
+					</div>
+					<div class="conent-t1">
+						<label class="key-1">Temp:</label>
+						<label class="value-1">
+						#[%dw 2.0
+						output application/json
+						---
+						(payload."Temperature" default "")]
+						<sup>o</sup>F</label> |
+						<label class="key-1">Condition:</label>
+						<label class="value-1">
+						#[%dw 2.0
+						output application/json
+						---
+						(payload."Condition" default "")]</label>
+					</div>
+					<div class="conent-t1">
+						<label class="key-1">Visibility:</label>
+						<label class="value-1">
+						#[%dw 2.0
+						output application/json
+						---
+						(payload."Visibility" default "")]
+						</label> |
+						<label class="key-1">Humidity:</label>
+						<label class="value-1">
+						#[%dw 2.0
+						output application/json
+						---
+						(payload."Humidity" default "")]</label>
+					</div>
+				</div>
+				<div class="column-2">
+					<div class="header-t1">
+						<label class="">AQI Data</label>
+					</div>
+					<div class="conent-t1">
+						<label class="key-1">Air Quality:</label>
+						<label class="value-1">
+						#[%dw 2.0
+						output application/json
+						---
+						(payload."AQI" default "")]</label>
+					</div>
+					<div class="conent-t1">
+						<label class="key-1">Recomendation(Non-Sensitive Group):</label>
+						<label class="value-1">
+						[NO] -
+						#[%dw 2.0
+						output application/json
+						---
+						(payload."Components"."no" default "" )],
+						[PM10] -
+						#[%dw 2.0
+						output application/json
+						---
+						(payload."Components"."pm10" default "" )]
+						</label>
+					</div>
+					<div class="conent-t1">
+						<label class="key-1">Recomendation(Sensitive Group):</label>
+						<label class="value-1">
+						[CO] -
+						#[%dw 2.0
+						output application/json
+						---
+						(payload."Components"."co" default "")],
+						[O3] -
+						#[%dw 2.0
+						output application/json
+						---
+						(payload."Components"."o3" default "" )]
+						</label>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			function myFunctiondefault(){
+			var longi1 = 50;
+			var lat1 = 50;
+			var email1 = 'afreen.fatma@apisero.com';
+			var n_url1 = "http://weatheralert-asp.us-e2.cloudhub.io/report?lon=" + longi1 + "&lat=" + lat1 + "&email=" +email1;
+			window.open(n_url1,'_top');
+			}
+			
+			function myFunction() {
+			var longi = document.getElementById("long").value;
+			var lat = document.getElementById("lat").value;
+			var email = document.getElementById("email").value;
+			var n_url = "http://weatheralert-asp.us-e2.cloudhub.io/report?lon=" + longi + "&lat=" + lat + "&email=" +email;
+			window.open(n_url,'_top');
+			}
+			
+			var hid = document.getElementById("hid").value;
+			if(hid.includes("application/json")){
+			document.getElementById("responseContainer").style.display = 'none';
+			document.getElementById("success-message").style.display = 'none';
+			}else{
+			document.getElementById("responseContainer").style.display = 'block';
+			document.getElementById("success-message").style.display = 'block';
+			}
+			function alertMessage(){
+			alert("No help");
+			}
+		</script>
+	</body>
+</html>
+
+
+
+
+
+
