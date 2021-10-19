@@ -93,7 +93,7 @@ payload.weather map ( weather , indexOfWeather ) -> {
 		<validation:is-not-null doc:name="Is not null :Verify for email" doc:id="f7734753-f773-42b1-9352-d34ee42df894" value="#[vars.email]" message="User email is not present"/>
 	</sub-flow>
 	<flow name="webFlow" doc:id="ef61d338-548b-4fc7-b1d8-4dd0a0960b20" >
-		<http:listener doc:name="Listener" doc:id="8a38932a-ed85-4888-bf25-deb75631d6de" config-ref="WeatherAlertApi-httpListenerConfig" path="/web"/>
+		<http:listener doc:name="Listener" doc:id="8a38932a-ed85-4888-bf25-deb75631d6de" config-ref="WeatherAlertApi-httpListenerConfig" path="/api/web"/>
 		<flow-ref doc:name="to get the working Dir" doc:id="b29400e5-cd22-4f19-9d80-b9b6f49fbf4f" name="workingDir"/>
 		<http:load-static-resource doc:name="Load static resource" doc:id="ca95bac0-a67d-4602-9e28-db8c04203bfe" resourceBasePath='#[vars.workingDir]' defaultFile="/webpage/WeatherAlert.html"/>
 		<error-handler >

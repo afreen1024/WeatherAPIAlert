@@ -126,7 +126,4 @@ output application/json
     <flow name="get:\report:WeatherAlertApi-config">
         <flow-ref doc:name="Get Weather Data" doc:id="35a0300f-5748-4e6e-bc97-093d2039816a" name="getWeatherData" />
     </flow>
-    <flow name="get:\web:WeatherAlertApi-config">
-		<flow-ref doc:name="WebPage" doc:id="ca759ee7-40ab-43f7-84c9-aabc0ffd083a" name="webFlow"/>
-    </flow>
 </mule>
