@@ -48,7 +48,7 @@ payload.weather map ( weather , indexOfWeather ) -> {
 	"Wind Index": payload.wind.speed as Number,
 	Condition: weather.main,
 	Country: payload.name default "US",
-	Temperature: payload.main.temp ++ " F",
+	Temperature: payload.main.temp ,
 	Humidity: payload.main.humidity ++ " %",
 	AQI: payload."AQI Data".main.aqi,
 	Visibility: payload.visibility ++ " m",
@@ -63,6 +63,7 @@ payload.weather map ( weather , indexOfWeather ) -> {
 			</ee:message>
 		</ee:transform>
 		<flow-ref doc:name="Send Email incase of Bad Weather" doc:id="5e92ea13-0ba1-436e-b0ef-08e2ecfd9f8c" name="SendEMAIL"/>
+		<parse-template doc:name="Parse Template" doc:id="f9e229dd-2e87-4d8e-97c5-3a1ef8195164" location="webpage\WeatherAlert.html"/>
 		<logger level="INFO" doc:name="Logger" doc:id="130322c5-8b82-4ca5-bf2b-c32644b5bfef" message="#[payload]"/>
 	</flow>
 	<sub-flow name="SendEMAIL" doc:id="cd8532fd-50d6-41c9-90b8-c48f8d862a05" >
