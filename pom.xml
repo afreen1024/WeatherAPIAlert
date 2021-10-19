@@ -54,10 +54,7 @@
 						<muleVersion>4.3.0</muleVersion>
 						<username>weatheralert</username>
 						<password>Apisero@123</password>
-						<!-- <connectedAppClientId>a6f7c798a2f042238f1ab66e0111152e</connectedAppClientId>
-						<connectedAppClientSecret>3E2eC5c4b7E542CAaBE5ef2fd6Ca5E03</connectedAppClientSecret>
-						<connectedAppGrantType>client_credentials</connectedAppGrantType> -->
-						<businessGroup>Apisero</businessGroup>
+						<businessGroup>Mulesoft</businessGroup>
 						<workers>1</workers>
 						<workerType>MICRO</workerType>
 						<region>us-east-2</region>
