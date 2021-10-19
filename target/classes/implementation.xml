@@ -107,7 +107,7 @@ payload.weather map ( weather , indexOfWeather ) -> {
 		<validation:is-not-null doc:name="Is not null :MuleHome" doc:id="ad9b73a2-05bc-4e5c-bcec-01369eaaa4d2" value="#[vars.muleHome]" message="Mule home is empty"/>
 		<set-variable value="#[app.name]" doc:name="get Application Name" doc:id="330a12a7-0740-4afb-9ca8-3de8eeae8ae1" variableName="appName" />
 		<validation:is-not-null doc:name="Is not null: verify AppName" doc:id="b970cca4-0896-48e0-a41c-3227fbbf2df7" value="#[vars.appName]" message="Application Name is not present"/>
-		<set-variable value='#[(vars.muleHome default "")++"\\apps\\"++(vars.appName default "")]' doc:name="Create the folder location" doc:id="a217b728-89c6-4d4a-9539-f9c1ccaadda2" variableName="workingDir" />
+		<set-variable value='#[(vars.muleHome default "")++"//apps//"++(vars.appName default "")]' doc:name="Create the folder location" doc:id="a217b728-89c6-4d4a-9539-f9c1ccaadda2" variableName="workingDir" />
 		<validation:is-not-null doc:name="Is not null :verify WorkingDir" doc:id="ecc06f59-0572-45de-adaf-f1dba3ab3848" value="#[vars.workingDir]" message="Check your working directory"/>
 	</sub-flow>
 </mule>
