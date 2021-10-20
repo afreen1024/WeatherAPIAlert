@@ -13,7 +13,6 @@ http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/m
 	<email:smtp-config name="Email_SMTP" doc:name="Email SMTP" doc:id="5f164a68-234b-4595-b859-db18ca4f3cbc" >
 		<email:smtp-connection host="${email.host}" user="${email.user}" password="${email.password}" port="${email.port}"/>
 	</email:smtp-config>
-	<api-gateway:autodiscovery apiId="17358999" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="397b5606-3e9a-4bb8-8bea-b5b70658fc7f" flowRef="get:\report:WeatherAlertApi-config" />
 	<error-handler name="globalError_Handler" doc:id="0b38c272-6db2-46ae-8f0c-e58199fd637f" >
 		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate : HTTP Request" doc:id="8422813e-48e4-4543-a6fe-a4e20f5da917" type="HTTP:BAD_GATEWAY, HTTP:BAD_REQUEST, HTTP:CLIENT_SECURITY, HTTP:CONNECTIVITY, HTTP:FORBIDDEN, HTTP:INTERNAL_SERVER_ERROR, HTTP:METHOD_NOT_ALLOWED, HTTP:NOT_ACCEPTABLE, HTTP:NOT_FOUND, HTTP:PARSING, HTTP:RETRY_EXHAUSTED, HTTP:SECURITY, HTTP:SERVICE_UNAVAILABLE, HTTP:TIMEOUT, HTTP:TOO_MANY_REQUESTS, HTTP:UNAUTHORIZED, HTTP:UNSUPPORTED_MEDIA_TYPE">
 			<set-payload value="Something went wrong :(" doc:name="RestService" doc:id="3736a678-048c-4d8d-8d26-35bc381753f7" />
