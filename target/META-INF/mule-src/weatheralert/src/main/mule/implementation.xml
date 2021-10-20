@@ -64,17 +64,24 @@ payload.weather map ( weather , indexOfWeather ) -> {
 		</ee:transform>
 		<flow-ref doc:name="Send Email incase of Bad Weather" doc:id="5e92ea13-0ba1-436e-b0ef-08e2ecfd9f8c" name="SendEMAIL"/>
 		<parse-template doc:name="Parse Template" doc:id="f9e229dd-2e87-4d8e-97c5-3a1ef8195164" location="webpage\WeatherAlert.html"/>
-		<logger level="INFO" doc:name="Logger" doc:id="130322c5-8b82-4ca5-bf2b-c32644b5bfef" message="#[payload]"/>
 	</flow>
 	<sub-flow name="SendEMAIL" doc:id="cd8532fd-50d6-41c9-90b8-c48f8d862a05" >
 		<choice doc:name="Choice" doc:id="56e332cd-f2ed-4d08-aad9-c9fa8da049f0" >
-			<when expression='#[payload[0]."Wind Index" &gt; 2]'>
+			<when expression='#[(payload[0]."Wind Index" &gt; 2) and (vars.email != "")]'>
+				<try doc:name="Try" doc:id="31ab5559-2098-4f8a-a7b2-49ffafd8732d" >
+					<validation:is-email doc:name="email validation" doc:id="baf6070a-4cfd-4700-a8c0-d445ec80ecd8" email="#[vars.email]" />
+					<error-handler >
+						<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="3fbc05ce-c4e3-42e0-a37f-1a972d85deda" type="VALIDATION:INVALID_EMAIL">
+							<logger level="INFO" doc:name="Invalid Email" doc:id="97a1b788-3f7e-4c43-ab6c-7056e82b149f" message="invalid email" />
+						</on-error-continue>
+					</error-handler>
+				</try>
 				<email:send doc:name="Send Email : Bad Weather" doc:id="da16dabb-955b-49e0-a077-3a53dc5d2f90" config-ref="Email_SMTP" fromAddress="saurabh.r.dixit@apisero.com" subject="Bad-Weather">
-					<email:to-addresses >
+					<email:to-addresses>
 						<email:to-address value="#[vars.email]" />
 					</email:to-addresses>
 					<email:body contentTransferEncoding="Quoted-Printable">
-						<email:content ><![CDATA[#["There is Bad weather in your area please evacuate"]]]></email:content>
+						<email:content><![CDATA[#["There is Bad weather in your area please evacuate"]]]></email:content>
 					</email:body>
 				</email:send>
 			</when>
@@ -89,7 +96,7 @@ payload.weather map ( weather , indexOfWeather ) -> {
 		<validation:is-not-null doc:name="Is not null : verify Latitude" doc:id="bd416d49-f62d-4b56-8a8f-ee8ad5e3c332" value="#[vars.lat]" message="Latitude variable is empty"/>
 		<set-variable value="#[attributes.queryParams.lon default 50]" doc:name="Set Longitude" doc:id="e62a3123-1f59-45e5-8552-cdd6a3e8f08e" variableName="lon"/>
 		<validation:is-not-null doc:name="Is not null: verify Longitude" doc:id="6713b6bc-ff70-46ae-bdb7-b8b0f7926380" value="#[vars.lon]" message="Longitude varaible is empty"/>
-		<set-variable value='#[attributes.queryParams.email default "afreen.fatma@apisero.com"]' doc:name="Set EMAIL" doc:id="57eec4b8-17f5-49b2-8ed9-152b262f3b3f" variableName="email"/>
+		<set-variable value='#[attributes.queryParams.email default ""]' doc:name="Set EMAIL" doc:id="57eec4b8-17f5-49b2-8ed9-152b262f3b3f" variableName="email"/>
 		<validation:is-not-null doc:name="Is not null :Verify for email" doc:id="f7734753-f773-42b1-9352-d34ee42df894" value="#[vars.email]" message="User email is not present"/>
 	</sub-flow>
 	<flow name="webFlow" doc:id="ef61d338-548b-4fc7-b1d8-4dd0a0960b20" >

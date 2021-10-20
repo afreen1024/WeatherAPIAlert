@@ -203,8 +203,8 @@
 			function myFunctiondefault(){
 			var longi1 = 50;
 			var lat1 = 50;
-			var email1 = 'afreen.fatma@apisero.com';
-			var n_url1 = "http://weatheralert-asp.us-e2.cloudhub.io/report?lon=" + longi1 + "&lat=" + lat1 + "&email=" +email1;
+			var email1 = '';
+			var n_url1 = "http://localhost:8081/api/report?lon=" + longi1 + "&lat=" + lat1 + "&email=" +email1;
 			window.open(n_url1,'_top');
 			}
 			
@@ -212,7 +212,7 @@
 			var longi = document.getElementById("long").value;
 			var lat = document.getElementById("lat").value;
 			var email = document.getElementById("email").value;
-			var n_url = "http://weatheralert-asp.us-e2.cloudhub.io/report?lon=" + longi + "&lat=" + lat + "&email=" +email;
+			var n_url = "http://localhost:8081/api/report?lon=" + longi + "&lat=" + lat + "&email=" +email;
 			window.open(n_url,'_top');
 			}
 			

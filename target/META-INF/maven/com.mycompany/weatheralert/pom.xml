@@ -31,6 +31,19 @@
 				<version>${mule.maven.plugin.version}</version>
 				<extensions>true</extensions>
 				<configuration>
+					<cloudHubDeployment>
+						<uri>https://anypoint.mulesoft.com</uri>
+						<muleVersion>4.3.0</muleVersion>
+						<username>weatheralert</username>
+						<password>Apisero@123</password>
+						<businessGroup>Mulesoft</businessGroup>
+						<workers>1</workers>
+						<workerType>MICRO</workerType>
+						<region>us-east-2</region>
+						<environment>Sandbox</environment>
+						<applicationName>weatheralert</applicationName>
+						<objectStoreV2>true</objectStoreV2>
+					</cloudHubDeployment>
 					<classifier>mule-application</classifier>
 				</configuration>
 			</plugin>
@@ -49,23 +62,6 @@
 					</execution>
 				</executions>
 				<configuration>
-				   <cloudHubDeployment>
-						<uri>https://anypoint.mulesoft.com</uri>
-						<muleVersion>4.3.0</muleVersion>
-						<username>weatheralert</username>
-						<password>Apisero@123</password>
-						<!-- <connectedAppClientId>a6f7c798a2f042238f1ab66e0111152e</connectedAppClientId>
-						<connectedAppClientSecret>3E2eC5c4b7E542CAaBE5ef2fd6Ca5E03</connectedAppClientSecret>
-						<connectedAppGrantType>client_credentials</connectedAppGrantType> -->
-						<businessGroup>Apisero</businessGroup>
-						<workers>1</workers>
-						<workerType>MICRO</workerType>
-						<region>us-east-2</region>
-						<environment>Sandbox</environment>
-						<applicationName>weatheralert</applicationName>
-						<objectStoreV2>true</objectStoreV2>
-					</cloudHubDeployment>
-				   
 					<coverage>
 						<runCoverage>true</runCoverage>
 						<formats>
@@ -131,7 +127,7 @@
 		<dependency>
 			<groupId>0b4efbf4-6a8c-42ea-914f-1a6dd75aabd8</groupId>
 			<artifactId>weather-alert</artifactId>
-			<version>1.0.3</version>
+			<version>1.0.5</version>
 			<classifier>raml</classifier>
 			<type>zip</type>
 		</dependency>

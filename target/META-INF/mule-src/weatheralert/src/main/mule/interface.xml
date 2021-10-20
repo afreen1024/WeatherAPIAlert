@@ -3,7 +3,7 @@
     <http:listener-config name="WeatherAlertApi-httpListenerConfig">
         <http:listener-connection host="0.0.0.0" port="${http.port}" />
     </http:listener-config>
-    <apikit:config name="WeatherAlertApi-config" api="resource::0b4efbf4-6a8c-42ea-914f-1a6dd75aabd8:weather-alert:1.0.3:raml:zip:WeatherAlertApi.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+    <apikit:config name="WeatherAlertApi-config" api="resource::0b4efbf4-6a8c-42ea-914f-1a6dd75aabd8:weather-alert:1.0.5:raml:zip:WeatherAlertApi.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
     <flow name="WeatherAlertApi-main">
         <http:listener config-ref="WeatherAlertApi-httpListenerConfig" path="/api/*">
             <http:response statusCode="#[vars.httpStatus default 200]">
@@ -125,5 +125,17 @@ output application/json
     </flow>
     <flow name="get:\report:WeatherAlertApi-config">
         <flow-ref doc:name="Get Weather Data" doc:id="35a0300f-5748-4e6e-bc97-093d2039816a" name="getWeatherData" />
+    </flow>
+    <flow name="get:\web:WeatherAlertApi-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  message: "The homepage is here."
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
     </flow>
 </mule>
